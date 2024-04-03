@@ -1,0 +1,13 @@
+C:\Users\User\myproject\ConsultasPy-main
+
+venv\Scripts\activate
+
+set FLASK_APP=app.py
+
+flask run
+
+git add .
+
+git commit -m "Mensagem"
+
+git push -u origin master

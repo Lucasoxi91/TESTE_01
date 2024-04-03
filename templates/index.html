@@ -1,0 +1,23 @@
+<!-- templates/index.html -->
+{% extends 'base.html' %}
+
+{% block title %}Escolha um Script{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>Escolha um Script para Executar</h1>
+    <form action="/execute" method="get">
+        <select name="script">
+            {% for script in scripts %}
+            <option value="{{ script }}">{{ script }}</option>
+            {% endfor %}
+        </select>
+        <select name="display">
+            <option value="tabela">Tabela</option>
+            <option value="barras">Gráfico de Barras</option>
+            <option value="pizza">Gráfico de Pizza</option>
+        </select>
+        <input type="submit" value="Executar">
+    </form>
+</div>
+{% endblock %}

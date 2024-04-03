@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Visualização dos Dados</title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+    
+        function drawChart() {
+            const rawData = {{ data|tojson|safe }};
+            const dataArray = [['Categoria', 'Quantidade']];
+    
+            rawData.labels.forEach((label, index) => {
+                dataArray.push([label, rawData.values[index]]);
+            });
+    
+            const data = google.visualization.arrayToDataTable(dataArray);
+    
+            const options = {
+                title: 'Dados: {{ script_name }}',
+                colors: rawData.backgroundColor,
+                legend: { position: 'bottom' }
+            };
+    
+            const chartType = "{{ display_mode }}";
+            let chart;
+    
+            if (chartType === 'barras') {
+                chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+            } else if (chartType === 'pizza') {
+                chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+                options.is3D = true;  // Opcional: para gráficos de pizza em 3D
+            }
+    
+            chart.draw(data, options);
+        }
+    </script>
+</head>
+<body>
+    <h1>Visualização dos Dados: {{ script_name }}</h1>
+    <div id="chart_div" style="width: 900px; height: 500px;"></div>
+</body>
+</html>
