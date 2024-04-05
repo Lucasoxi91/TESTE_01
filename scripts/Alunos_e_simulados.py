@@ -52,9 +52,9 @@ def execute_query():
                 AND qup.quiz_id IN (
                     SELECT iq.quiz_id  
                     FROM institutions_quizzes iq 
-                    WHERE iq.institution_id IN (335,336,337,338)
+                    WHERE iq.institution_id IN (335,336,337,338,363,364)
                 )
-                AND ie.institution_id IN (335,336,337,338)
+                AND ie.institution_id IN (335,336,337,338,363,364)
                 AND ic2.year = 2024
                 AND c.id = 2313302
             GROUP BY curso, escola, turma, cidade, simulado
