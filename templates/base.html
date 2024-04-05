@@ -6,83 +6,92 @@
     <title>{% block title %}Resultado da Consulta{% endblock %}</title>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Nunito', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f0f2f5;
             margin: 0;
             padding: 20px;
+            color: #333;
         }
         
         .container {
             background-color: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            margin-top: 20px;
+            border-radius: 12px;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+            padding: 25px;
+            margin-top: 25px;
         }
         
         h1 {
-            color: #333;
-            font-size: 24px;
+            color: #007bff;
+            font-size: 28px;
+            margin-bottom: 20px;
         }
         
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
         }
         
         table, th, td {
-            border: 1px solid #ddd;
+            border: 1px solid #e7e9eb;
         }
         
         th, td {
             text-align: left;
-            padding: 8px;
+            padding: 12px;
         }
         
         th {
             background-color: #007bff;
             color: white;
+            font-weight: 500;
         }
         
         tr:nth-child(even) {
-            background-color: #f2f2f2;
+            background-color: #f8f9fa;
         }
         
         .btn {
             display: inline-block;
-            padding: 10px 20px;
+            padding: 12px 25px;
             font-size: 16px;
             cursor: pointer;
             text-align: center;
             text-decoration: none;
-            outline: none;
             color: #fff;
-            background-color: #007bff;
+            background-image: linear-gradient(145deg, #007bff 0%, #0056b3 100%);
             border: none;
-            border-radius: 5px;
-            box-shadow: 0 2px #999;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease-in-out;
         }
         
-        .btn:hover {background-color: #0069d9}
+        .btn:hover {
+            background-image: linear-gradient(145deg, #0056b3 0%, #003a88 100%);
+        }
         
         .btn:active {
-            background-color: #005cbf;
-            box-shadow: 0 2px #666;
-            transform: translateY(2px);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+            transform: translateY(1px);
         }
         
         select {
-            padding: 10px;
-            margin-right: 10px;
+            padding: 10px 15px;
+            margin-right: 15px;
             border: 1px solid #ddd;
-            border-radius: 4px;
-            background-color: #f8f8f8;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        select:hover {
+            background-color: #e9ecef;
         }
         
         /* Estilização adicional para DataTables e Plotly conforme necessário */
-        </style>
-        
+    </style>
 </head>
 <body>
     {% block body %}
