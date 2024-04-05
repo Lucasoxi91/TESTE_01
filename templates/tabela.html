@@ -73,11 +73,18 @@
 </div>
 
 <script>
-    $(document).ready(function() {
-        $('#resultsTable').DataTable({
-            responsive: true
-        });
+$(document).ready(function() {
+    // Primeiro, verifica se o DataTable já foi inicializado
+    if ($.fn.dataTable.isDataTable('#resultsTable')) {
+        // Se já foi inicializado, destrói a instância anterior
+        $('#resultsTable').DataTable().destroy();
+    }
+    // Em seguida, inicializa o DataTable
+    $('#resultsTable').DataTable({
+        responsive: true
     });
-    </script>
+});
+</script>
+
     
 {% endblock %}
