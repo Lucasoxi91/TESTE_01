@@ -21,33 +21,42 @@ def execute_query():
         try:
             with conn.cursor() as cur:
                 cur.execute("""
-                SELECT 
-                    i.name AS curso,
-                    ic2.name AS escola,
-                    ic.name AS turma,
-                    c.name AS cidade,
-                    q.name AS simulado,
-                    COUNT(users.id) AS n_user_id
-                FROM 
-                    quiz_user_progresses qup  
-                    INNER JOIN users ON users.id = qup.user_id 
-                    INNER JOIN quizzes q ON q.id = qup.quiz_id 
-                    INNER JOIN institution_enrollments ie ON ie.user_id = qup.user_id 
-                    INNER JOIN institution_classrooms ic ON ic.id = ie.classroom_id  
-                    INNER JOIN institution_levels il ON il.id = ic.level_id 
-                    INNER JOIN institution_courses ic3 ON ic3.id = il.course_id 
-                    INNER JOIN institution_colleges ic2 ON ic2.id = ic3.institution_college_id AND ic2.id = ie.college_id 
-                    INNER JOIN institutions i ON i.id = ic2.institution_id  and i.id = ie.institution_id
-                    INNER JOIN regions r ON ic2.region_id = r.id 
-                    INNER JOIN cities c ON c.id = r.city_id 
-                    INNER JOIN holdings h ON h.id = ie.holding_id
-                WHERE 
-                    qup.finished = true 
-                    AND ic2.year = 2024
-                    AND c.id = 2313302 -- tauá - ce
-                    AND h.id = 159
-                GROUP BY 
-                    curso, escola, turma, cidade, simulado
+            SELECT 
+            ic2.name AS escola,
+            ic.name AS turma,
+            c.name AS cidade,
+            CASE 
+                WHEN q.name LIKE '%LP%' THEN 'Língua Portuguesa'
+                WHEN q.name LIKE '%MT%' THEN 'Matemática'
+                ELSE 'Outro' -- Usar 'Outro' ou ajustar conforme necessário
+            END AS curso, -- Aqui foi ajustado de 'materia' para 'curso'
+            q.name AS simulado,
+            COUNT(DISTINCT users.id) AS n_user_id
+        FROM 
+            quiz_user_progresses qup  
+        INNER JOIN users ON users.id = qup.user_id 
+        INNER JOIN quizzes q ON q.id = qup.quiz_id 
+        INNER JOIN institution_enrollments ie ON ie.user_id = qup.user_id 
+        INNER JOIN institution_classrooms ic ON ic.id = ie.classroom_id  
+        INNER JOIN institution_levels il ON il.id = ic.level_id 
+        INNER JOIN institution_courses ic3 ON ic3.id = il.course_id 
+        INNER JOIN institution_colleges ic2 ON ic2.id = ic3.institution_college_id AND ic2.id = ie.college_id 
+        INNER JOIN institutions i ON i.id = ic2.institution_id  
+        INNER JOIN regions r ON ic2.region_id = r.id 
+        INNER JOIN cities c ON c.id = r.city_id 
+        WHERE qup.finished = TRUE 
+            AND (q.name LIKE '%LP%' OR q.name LIKE '%MT%')
+            AND qup.quiz_id IN (
+                SELECT iq.quiz_id  
+                FROM institutions_quizzes iq 
+                WHERE iq.institution_id IN (335,336,337,338)
+            )
+            AND ie.institution_id IN (335,336,337,338)
+            AND ic2.year = 2024
+            AND c.id = 2313302
+        GROUP BY curso, escola, turma, cidade, simulado
+        ORDER BY curso, escola, turma, cidade, simulado;
+
                 """)
                 column_names = [desc[0] for desc in cur.description]
                 results = cur.fetchall()
