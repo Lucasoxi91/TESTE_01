@@ -1,46 +1,57 @@
-<!-- templates/tabela.html -->
-{% extends 'base.html' %}
+% extends 'base.html' %}
 
 {% block title %}Resultado da Consulta em Tabela{% endblock %}
 
 {% block body %}
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
-<script>$(document).ready(function() {$('#resultsTable').DataTable();});</script>
-<div class="container">
-    <a href="https://teste-01-an6l.onrender.com/" class="btn">Voltar </a>
+<script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+
+<style>
+    body {
+        font-family: 'Nunito Sans', 'Segoe UI', Roboto, sans-serif;
+        background-color: #f4f7f6;
+        margin: 0;
+        padding: 20px;
+    }
+   
+    .btn {
+        display: inline-block;
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        text-align: center;
+        color: #fff;
+        background-color: #2ab31d;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background-color 0.2s;
+    }
     
-    <style>
-        .header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        }
+    .btn:hover, .btn:focus {
+        background-color: #00b300;
+        color: #fff;
+        outline: none;
+    }
+    
+    @media (max-width: 600px) {
         .btn {
-            position: absolute;
-            top: 20px; /* Ajuste conforme necessário */
-            right: 20px; /* Ajuste conforme necessário */
-            display: inline-block;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            text-align: center;
-            color: #fff;
-            background-color: #2ab31d;
-            border: none;
-            border-radius: 5px;
-            text-decoration: none; /* Remove o sublinhado do texto do link */
-            transition: background-color 0.2s; /* Efeito suave ao mudar de cor */
+            top: 10px;
+            right: 10px;
+            font-size: 14px;
+            padding: 8px 16px;
         }
-    
-        .btn:hover, .btn:focus {
-            background-color: #00b300;
-            color: #fff;
-            outline: none; /* Remove o contorno que pode aparecer ao focar o botão */
-        }
-    </style>
-    
+    }
+</style>
+
+<a href="https://teste-01-an6l.onrender.com/" class="btn">Voltar </a>
+<div class="container">
     <h1>Resultados em Tabela</h1>
     <table id="resultsTable" class="display">
         <thead>
@@ -60,16 +71,13 @@
             {% endfor %}
         </tbody>
     </table>
-    <form action="/download_csv" method="post">
-        <input type="hidden" name="script" value="{{ request.form.script }}">
-        <input type="submit" value="Download CSV">
-    </form>
 </div>
 
 <script>
-
 $(document).ready(function() {
-    $('#resultsTable').DataTable();
+    $('#resultsTable').DataTable({
+        responsive: true
+    });
 });
 </script>
 {% endblock %}
