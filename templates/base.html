@@ -90,7 +90,63 @@
             background-color: #e9ecef;
         }
         
-        /* Estilização adicional para DataTables e Plotly conforme necessário */
+       /* Estilização para DataTables */
+        .dataTables_wrapper {
+            font-family: 'Nunito', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        .dataTables_wrapper .dataTables_filter input,
+        .dataTables_wrapper .dataTables_length select {
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            background-color: #f8f9fa;
+        }
+
+        .dataTables_wrapper .dataTables_filter input:hover,
+        .dataTables_wrapper .dataTables_length select:hover {
+            background-color: #e9ecef;
+        }
+
+        table.dataTable thead tr {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        table.dataTable tbody tr:nth-of-type(odd) {
+            background-color: #f8f9fa;
+        }
+
+        table.dataTable tbody tr:hover {
+            background-color: #eaeaea;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 8px;
+            margin: 0 2px;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+            background-color: #0056b3;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+            background-color: #004494;
+        }
+
+        /* Estilização para Plotly */
+        #myChart {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            overflow: hidden; /* Assegura que tudo fique dentro do contêiner arredondado */
+        }
     </style>
 </head>
 <body>
