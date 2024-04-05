@@ -48,16 +48,23 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // A variável data agora recebe os dados injetados pelo Flask
+            const data = [{
+                type: 'pie',
+                labels: {{ data.labels | tojson }},
+                values: {{ data.values | tojson }},
+                textinfo: 'label+percent',
+                textposition: 'outside',
+                automargin: true
+            }];
+
             const layout = {
                 title: '{{ script_name }}',
                 autosize: true,
                 responsive: true
             };
-            Plotly.newPlot('myChart', {{ data|tojson|safe }}, layout);
 
-            window.onresize = function() {
-                Plotly.Plots.resize(document.getElementById('myChart'));
-            };
+            Plotly.newPlot('myChart', data, layout);
         });
     </script>
 </body>

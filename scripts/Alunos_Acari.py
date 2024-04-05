@@ -1,5 +1,8 @@
 from flask import Flask, render_template_string
 import psycopg2
+from flask import Flask, render_template
+import json
+
 
 def get_db_connection():
     conn = None
@@ -15,7 +18,7 @@ def get_db_connection():
         print(f"Falha na conexão ao banco de dados: {e}")
     return conn
 
-def execute_query():
+def get_data_from_db():
     conn = get_db_connection()
     if conn is not None:
         try:
@@ -160,6 +163,18 @@ def index():
     </html>
     """
     return render_template_string(html_template, column_names=column_names, query_results=query_results)
+def grafico():
+    query_results = get_data_from_db()
+    labels = [result[0] for result in query_results]
+    values = [result[1] for result in query_results]
+    data = {
+        "labels": labels,
+        "values": values
+    }
+    # Converte os dados para JSON, que será injetado no template
+    data_json = json.dumps(data)
+    return render_template('grafico.html', data=data_json, script_name="Nome do Gráfico")
+
 
 if __name__ == "__main__":
     app.run(debug=True)
