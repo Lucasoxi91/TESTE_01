@@ -9,9 +9,30 @@
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
 <script>$(document).ready(function() {$('#resultsTable').DataTable();});</script>
 <div class="container">
-    <p>Use o link abaixo para voltar ao Index:</p>
-    <a href="index.html">Voltar para Index</a>
-    <br><br>
+    <a href="https://teste-01-an6l.onrender.com/" class="btn">Voltar </a><br><br>
+    
+    <style>
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none; /* Remove o sublinhado do texto do link */
+            transition: background-color 0.2s; /* Efeito suave ao mudar de cor */
+        }
+    
+        .btn:hover, .btn:focus {
+            background-color: #0056b3;
+            color: #fff;
+            outline: none; /* Remove o contorno que pode aparecer ao focar o botão */
+        }
+    </style>
+    
     <h1>Resultados em Tabela</h1>
     <table id="resultsTable" class="display">
         <thead>
