@@ -43,4 +43,72 @@
     });
 </script>
 
+<style>
+    body {
+        font-family: 'Nunito Sans', 'Segoe UI', Roboto, sans-serif;
+        background-color: #f4f7f6;
+        margin: 0;
+        padding: 20px;
+    }
+
+    #calendar {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .fc-header-toolbar {
+        margin-bottom: 20px;
+    }
+
+    .fc button {
+        background-color: #bdd3bf;
+        color: #ffffff;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 4px;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+    .fc button:hover {
+        background-color: #00b37d;
+    }
+
+    .fc .fc-button-primary {
+        background-color: #6e6e6e;
+        border: 1px solid #007bff;
+    }
+
+    .fc .fc-button-primary:not(:disabled).fc-button-active, .fc .fc-button-primary:not(:disabled):active {
+        background-color: #24b300;
+        border-color: #00b300;
+    }
+
+    .fc-view, .fc-view > table {
+        background-color: #f8f9fa;
+        color: #333;
+    }
+
+    .fc-day-today {
+        background-color: #ffe8d6;
+    }
+
+    .fc-event {
+        background-color: #353536;
+        border: 1px solid #3b3b3b;
+        border-radius: 4px;
+        font-size: 14px;
+        color: white;
+        cursor: pointer;
+    }
+
+    .fc-event:hover {
+        background-color: #505b66;
+    }
+</style>
+
 {% endblock %}
