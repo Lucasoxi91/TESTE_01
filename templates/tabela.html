@@ -17,6 +17,15 @@
 <div class="container">
    
     <style>
+        .container {
+    width: 100%; /* Assegura que o container utilize toda a largura */
+            overflow-x: auto; /* Permite rolagem horizontal se necessário */
+        }
+
+        .table-responsive {
+            min-height: .01%;
+            overflow-x: auto; /* Especialmente importante para dispositivos móveis */
+        }
         .header {
         display: flex;
         justify-content: space-between;
@@ -76,18 +85,15 @@
 
 
 <script>
-$(document).ready(function() {
-    // Primeiro, verifica se o DataTable já foi inicializado
-    if ($.fn.dataTable.isDataTable('#resultsTable')) {
-        // Se já foi inicializado, destrói a instância anterior
-        $('#resultsTable').DataTable().destroy();
-    }
-    // Em seguida, inicializa o DataTable
-    $('#resultsTable').DataTable({
-        responsive: true
+    $(document).ready(function() {
+        setTimeout(function() {
+            $('#resultsTable').DataTable({
+                responsive: true,
+                destroy: true // Permite reconfigurações se necessário
+            });
+        }, 500); // Delay de 500ms antes da inicialização
     });
-});
-</script>
+    </script>
 
     
 {% endblock %}
