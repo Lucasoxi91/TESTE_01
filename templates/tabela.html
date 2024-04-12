@@ -17,15 +17,7 @@
 <div class="container">
    
     <style>
-        .container {
-    width: 100%; /* Assegura que o container utilize toda a largura */
-            overflow-x: auto; /* Permite rolagem horizontal se necessário */
-        }
-
-        .table-responsive {
-            min-height: .01%;
-            overflow-x: auto; /* Especialmente importante para dispositivos móveis */
-        }
+        
         .header {
         display: flex;
         justify-content: space-between;
@@ -56,12 +48,10 @@
     </style>
     
    <div class="container">
-   
+    <a href="https://teste-01-an6l.onrender.com/" class="btn">Voltar </a>
     
     <h1>Resultados em Tabela</h1>
-    
     <table id="resultsTable" class="display responsive nowrap" style="width:100%">
-        <a href="https://teste-01-an6l.onrender.com/" class="btn">Voltar </a>
         <thead>
             <tr>
                 {% for name in column_names %}
