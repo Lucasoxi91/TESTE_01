@@ -4,11 +4,11 @@
 {% block title %}Resultado da Consulta em Tabela{% endblock %}
 
 {% block body %}
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
-<script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
 
 
 <script>$(document).ready(function() {$('#resultsTable').DataTable();});</script>
@@ -47,8 +47,9 @@
         }
     </style>
     
+   <div class="container">
     <h1>Resultados em Tabela</h1>
-    <table id="resultsTable" class="display">
+    <table id="resultsTable" class="display responsive nowrap" style="width:100%">
         <thead>
             <tr>
                 {% for name in column_names %}
@@ -71,6 +72,7 @@
         <input type="submit" value="Download CSV">
     </form>
 </div>
+
 
 <script>
 $(document).ready(function() {
