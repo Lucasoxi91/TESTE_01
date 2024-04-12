@@ -29,7 +29,7 @@ WITH AlunosSimulado AS (
         -- Aplicando a lógica de renomeação para a coluna "cursos" com base no nome do simulado
         CASE 
             WHEN q.name LIKE '%LP%' THEN 'Língua Portuguesa'
-            WHEN q.name LIKE '%MAT%' THEN 'Matemática'
+            WHEN q.name LIKE '%MT%' THEN 'Matemática'
             WHEN q.name LIKE '%Minissim%' THEN 'Matemática'
             WHEN q.name LIKE '%Minisim%' THEN 'Língua Portuguesa'
             ELSE 'Outro Curso' -- Um caso padrão se não se encaixa nos casos especificados
