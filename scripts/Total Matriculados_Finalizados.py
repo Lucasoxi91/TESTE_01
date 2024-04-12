@@ -21,6 +21,7 @@ def execute_query():
         try:
             with conn.cursor() as cur:
                 cur.execute("""
+
 WITH AlunosSimulado AS (
     SELECT 
         ic2.name AS escola,
@@ -31,8 +32,7 @@ WITH AlunosSimulado AS (
             WHEN q.name LIKE '%LP%' THEN 'Língua Portuguesa'
             WHEN q.name LIKE '%MT%' THEN 'Matemática'
             WHEN q.name LIKE '%Minissim%' THEN 'Matemática'
-            WHEN q.name LIKE '%Minisim%' THEN 'Língua Portuguesa'
-            ELSE 'Outro Curso' -- Um caso padrão se não se encaixa nos casos especificados
+            WHEN q.name LIKE '%minisim%' THEN 'Língua Portuguesa'
         END AS cursos, 
         COUNT(DISTINCT users.id) AS alunos_simulado
     FROM 
@@ -47,7 +47,8 @@ WITH AlunosSimulado AS (
     INNER JOIN institutions i ON i.id = ic2.institution_id  
     WHERE qup.finished = TRUE 
     AND i.name ILIKE '%2024%'  -- Filtra para incluir apenas instituições que contêm "2024" no nome
-    GROUP BY ic2.name, i.id, q.name, cursos
+    AND ic2.name <> 'Wiquadro'  -- Exclui a instituição com nome "Wiquadro"
+    GROUP BY ic2.name, i.id, q.name
 ),
 TodosAlunosMatriculados AS (
     SELECT 
@@ -62,6 +63,7 @@ TodosAlunosMatriculados AS (
     INNER JOIN institution_colleges ic2 ON ic2.id = ic3.institution_college_id 
     INNER JOIN institutions i ON i.id = ic2.institution_id  
     WHERE i.name ILIKE '%2024%'  -- Filtra para incluir apenas instituições que contêm "2024" no nome
+    AND ic2.name <> 'Wiquadro'  -- Exclui a instituição com nome "Wiquadro"
     GROUP BY ic2.name, i.id
 )
 SELECT 
