@@ -25,14 +25,14 @@ def execute_query():
 WITH AlunosSimulado AS (
     SELECT 
         ic2.name AS escola,
-        i.id AS instituicao_id, -- ID da instituição
-        q.name AS nome_simulado, -- Nome do simulado
-        -- Aplicando a lógica de renomeação para a coluna "cursos" com base no nome do simulado
+        ic.name AS turma,
+        i.id AS instituicao_id,
+        q.name AS nome_simulado,
         CASE 
             WHEN q.name LIKE '%LP%' THEN 'Língua Portuguesa'
             WHEN q.name LIKE '%MT%' THEN 'Matemática'
             WHEN q.name LIKE '%Minissim%' THEN 'Matemática'
-            WHEN q.name LIKE '%minisim%' THEN 'Língua Portuguesa'
+            WHEN q.name LIKE '%Minisim%' THEN 'Língua Portuguesa'
         END AS cursos, 
         COUNT(DISTINCT users.id) AS alunos_simulado
     FROM 
@@ -46,14 +46,14 @@ WITH AlunosSimulado AS (
     INNER JOIN institution_colleges ic2 ON ic2.id = ic3.institution_college_id AND ic2.id = ie.college_id 
     INNER JOIN institutions i ON i.id = ic2.institution_id  
     WHERE qup.finished = TRUE 
-    AND i.name ILIKE '%2024%'  -- Filtra para incluir apenas instituições que contêm "2024" no nome
-    AND ic2.name <> 'Wiquadro'  -- Exclui a instituição com nome "Wiquadro"
-    GROUP BY ic2.name, i.id, q.name
+    AND i.name ILIKE '%2024%' 
+    AND ic2.name <> 'Wiquadro'
+    GROUP BY ic2.name, ic.name, i.id, q.name
 ),
 TodosAlunosMatriculados AS (
     SELECT 
         ic2.name AS escola,
-        i.id AS instituicao_id, -- ID da instituição
+        i.id AS instituicao_id,
         COUNT(DISTINCT ie.user_id) AS alunos_matriculados
     FROM 
         institution_enrollments ie
@@ -62,25 +62,24 @@ TodosAlunosMatriculados AS (
     INNER JOIN institution_courses ic3 ON ic3.id = il.course_id 
     INNER JOIN institution_colleges ic2 ON ic2.id = ic3.institution_college_id 
     INNER JOIN institutions i ON i.id = ic2.institution_id  
-    WHERE i.name ILIKE '%2024%'  -- Filtra para incluir apenas instituições que contêm "2024" no nome
-    AND ic2.name <> 'Wiquadro'  -- Exclui a instituição com nome "Wiquadro"
+    WHERE i.name ILIKE '%2024%'
+    AND ic2.name <> 'Wiquadro'
     GROUP BY ic2.name, i.id
 )
 SELECT 
     T.escola,
     T.instituicao_id,
-    A.cursos, -- Exibindo o nome do curso modificado conforme o simulado
-    A.nome_simulado, -- Exibindo o nome do simulado
-    COALESCE(A.alunos_simulado, 0) AS alunos_simulado,
-    COALESCE(T.alunos_matriculados, 0) AS alunos_matriculados -- Incluindo os alunos matriculados na consulta
+    A.turma, 
+    A.cursos, 
+    A.nome_simulado, 
+    COALESCE(A.alunos_simulado, 0) AS alunos_simulado, 
+    COALESCE(T.alunos_matriculados, 0) AS alunos_matriculados
 FROM 
     TodosAlunosMatriculados T
 LEFT JOIN AlunosSimulado A 
     ON T.escola = A.escola 
     AND T.instituicao_id = A.instituicao_id
-ORDER BY T.escola, A.cursos; -- Ordenado por escola e cursos
-
-
+ORDER BY T.escola, A.cursos;
 
                 """)
                 column_names = [desc[0] for desc in cur.description]
