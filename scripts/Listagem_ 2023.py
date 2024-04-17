@@ -28,7 +28,9 @@ WITH AlunosSimulado AS (
         q.name AS nome_simulado,
         CASE 
             WHEN q.name LIKE '%LP%' THEN 'Língua Portuguesa'
-            WHEN q.name LIKE '%MT%' THEN 'Matemática'
+            WHEN q.name LIKE '%MT%' THEN 'Matemática'             
+            WHEN q.name LIKE '%minisim%' THEN 'Língua Portuguesa'
+            WHEN q.name LIKE '%Minissim%' THEN 'Matemática'
         END AS cursos, 
         COUNT(DISTINCT users.id) AS alunos_simulado
     FROM 
@@ -75,7 +77,10 @@ FROM
 LEFT JOIN AlunosSimulado A 
     ON T.escola = A.escola
     AND T.turma = A.turma
-ORDER BY T.escola, T.turma, A.cursos;
+ORDER BY T.escola, T.turma, A.cursos;                           
+
+
+
 
 
                 """)
