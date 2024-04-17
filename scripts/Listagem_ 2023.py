@@ -21,7 +21,6 @@ def execute_query():
         try:
             with conn.cursor() as cur:
                 cur.execute("""
-
 WITH AlunosSimulado AS (
     SELECT 
         ic2.name AS escola,
@@ -30,6 +29,8 @@ WITH AlunosSimulado AS (
         CASE 
             WHEN q.name LIKE '%LP%' THEN 'Língua Portuguesa'
             WHEN q.name LIKE '%MT%' THEN 'Matemática'
+            WHEN q.name LIKE '%Minissim%' THEN 'Matemática'
+            WHEN q.name LIKE '%minisim%' THEN 'Língua Portuguesa'
         END AS cursos, 
         COUNT(DISTINCT users.id) AS alunos_simulado
     FROM 
@@ -43,8 +44,8 @@ WITH AlunosSimulado AS (
     INNER JOIN institution_colleges ic2 ON ic2.id = ic3.institution_college_id AND ic2.id = ie.college_id 
     INNER JOIN institutions i ON i.id = ic2.institution_id  
     WHERE qup.finished = TRUE 
-    AND i.id IN (335, 336, 363)
-    AND ic2.name <> 'Wiquadro'
+    AND LOWER(i.city) = 'tauá'  -- Filtrando para instituições na cidade de Tauá
+    AND LOWER(ic2.name) NOT IN ('wiquadro', 'teste', 'escola demonstração', 'escola1', 'escola2')
     GROUP BY ic2.name, ic.name, q.name
 ),
 TodosAlunosMatriculados AS (
@@ -59,8 +60,8 @@ TodosAlunosMatriculados AS (
     INNER JOIN institution_courses ic3 ON ic3.id = il.course_id 
     INNER JOIN institution_colleges ic2 ON ic2.id = ic3.institution_college_id 
     INNER JOIN institutions i ON i.id = ic2.institution_id  
-    WHERE i.id IN (335, 336, 363)
-    AND ic2.name <> 'Wiquadro'
+    WHERE LOWER(i.city) = 'tauá'  -- Filtrando para instituições na cidade de Tauá
+    AND LOWER(ic2.name) NOT IN ('wiquadro', 'teste', 'escola demonstração', 'escola1', 'escola2')
     GROUP BY ic2.name, ic.name
 )
 SELECT 
@@ -69,15 +70,14 @@ SELECT
     A.cursos, 
     A.nome_simulado, 
     COALESCE(A.alunos_simulado, 0) AS alunos_simulado, 
-    COALESCE(T.alunos_matriculados, 0) AS alunos_matriculados
+    COALESCE(T.alunos_matriculados, 0) AS alunos_matriculados,
+    ROUND((COALESCE(A.alunos_simulado, 0)::DECIMAL / GREATEST(T.alunos_matriculados, 1)) * 100, 2) AS taxa_participacao
 FROM 
     TodosAlunosMatriculados T
 LEFT JOIN AlunosSimulado A 
     ON T.escola = A.escola
     AND T.turma = A.turma
 ORDER BY T.escola, T.turma, A.cursos;
-
-
 
                 """)
                 column_names = [desc[0] for desc in cur.description]
@@ -167,9 +167,3 @@ def index():
 
 if __name__ == "__main__":
     app.run(debug=True)
-
-
-
-
-
-
