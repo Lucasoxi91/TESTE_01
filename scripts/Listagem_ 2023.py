@@ -64,6 +64,8 @@ TodosAlunosMatriculados AS (
     AND LOWER(ic2.name) NOT IN ('wiquadro', 'teste', 'escola demonstração', 'escola1', 'escola2')
     GROUP BY ic2.name, ic.name
 )
+
+                            
 SELECT 
     T.escola,
     T.turma,
