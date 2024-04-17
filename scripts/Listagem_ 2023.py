@@ -44,7 +44,6 @@ WITH AlunosSimulado AS (
     INNER JOIN institution_colleges ic2 ON ic2.id = ic3.institution_college_id AND ic2.id = ie.college_id 
     INNER JOIN institutions i ON i.id = ic2.institution_id  
     WHERE qup.finished = TRUE 
-    AND LOWER(i.city) = 'tauá'  -- Filtrando para instituições na cidade de Tauá
     AND LOWER(ic2.name) NOT IN ('wiquadro', 'teste', 'escola demonstração', 'escola1', 'escola2')
     GROUP BY ic2.name, ic.name, q.name
 ),
@@ -60,12 +59,9 @@ TodosAlunosMatriculados AS (
     INNER JOIN institution_courses ic3 ON ic3.id = il.course_id 
     INNER JOIN institution_colleges ic2 ON ic2.id = ic3.institution_college_id 
     INNER JOIN institutions i ON i.id = ic2.institution_id  
-    WHERE LOWER(i.city) = 'tauá'  -- Filtrando para instituições na cidade de Tauá
     AND LOWER(ic2.name) NOT IN ('wiquadro', 'teste', 'escola demonstração', 'escola1', 'escola2')
     GROUP BY ic2.name, ic.name
-)
-
-                            
+)                    
 SELECT 
     T.escola,
     T.turma,
