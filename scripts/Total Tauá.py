@@ -21,11 +21,9 @@ def execute_query():
         try:
             with conn.cursor() as cur:
                 cur.execute("""
-
 WITH AlunosSimulado AS (
     SELECT 
-        ic2.name AS escola,
-        ic.name AS turma,
+        'Tauá' AS municipio,  -- Substituindo escola por município fixo
         q.name AS nome_simulado,
         CASE 
             WHEN q.name LIKE '%LP%' THEN 'Língua Portuguesa'
@@ -43,14 +41,14 @@ WITH AlunosSimulado AS (
     INNER JOIN institution_colleges ic2 ON ic2.id = ic3.institution_college_id AND ic2.id = ie.college_id 
     INNER JOIN institutions i ON i.id = ic2.institution_id  
     WHERE qup.finished = TRUE 
-    AND i.id IN (335, 336, 363)
-    AND ic2.name <> 'Wiquadro'
-    GROUP BY ic2.name, ic.name, q.name
+    AND (q.name LIKE '%C1l%' OR q.name LIKE '%C1%')
+    AND i.name ILIKE '%2024%'
+    AND LOWER(ic2.name) NOT IN ('Wiquadro', 'teste', 'escola demonstração', 'escola1', 'escola2')
+    GROUP BY q.name
 ),
 TodosAlunosMatriculados AS (
     SELECT 
-        ic2.name AS escola,
-        ic.name AS turma,
+        'Tauá' AS municipio,  -- Fixando o valor do município
         COUNT(DISTINCT ie.user_id) AS alunos_matriculados
     FROM 
         institution_enrollments ie
@@ -59,24 +57,22 @@ TodosAlunosMatriculados AS (
     INNER JOIN institution_courses ic3 ON ic3.id = il.course_id 
     INNER JOIN institution_colleges ic2 ON ic2.id = ic3.institution_college_id 
     INNER JOIN institutions i ON i.id = ic2.institution_id  
-    WHERE i.id IN (335, 336, 363)
-    AND ic2.name <> 'Wiquadro'
-    GROUP BY ic2.name, ic.name
+    WHERE i.name ILIKE '%2024%'
+    AND LOWER(ic2.name) NOT IN ('wiquadro', 'teste', 'escola demonstração', 'escola1', 'escola2')
 )
 SELECT 
-    T.escola,
-    T.turma,
-    A.cursos, 
-    A.nome_simulado, 
-    COALESCE(A.alunos_simulado, 0) AS alunos_simulado, 
-    COALESCE(T.alunos_matriculados, 0) AS alunos_matriculados
+    A.municipio,
+    A.nome_simulado,
+    A.cursos,
+    SUM(A.alunos_simulado) AS total_alunos_simulado,  
+    MAX(T.alunos_matriculados) AS total_alunos_matriculados
 FROM 
     TodosAlunosMatriculados T
-LEFT JOIN AlunosSimulado A 
-    ON T.escola = A.escola
-    AND T.turma = A.turma
-ORDER BY T.escola, T.turma, A.cursos;
-
+JOIN AlunosSimulado A 
+    ON T.municipio = A.municipio
+GROUP BY A.municipio, A.nome_simulado, A.cursos
+ORDER BY A.nome_simulado;
+                            
                 """)
                 column_names = [desc[0] for desc in cur.description]
                 results = cur.fetchall()
