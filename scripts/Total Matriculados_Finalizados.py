@@ -30,6 +30,8 @@ WITH AlunosSimulado AS (
         CASE 
             WHEN q.name LIKE '%LP%' THEN 'Língua Portuguesa'
             WHEN q.name LIKE '%MT%' THEN 'Matemática'
+             WHEN q.name LIKE '%Minissim%' THEN 'Matemática'
+              WHEN q.name LIKE '%minisim%' THEN 'Língua Portuguesa'
         END AS cursos, 
         COUNT(DISTINCT users.id) AS alunos_simulado
     FROM 
